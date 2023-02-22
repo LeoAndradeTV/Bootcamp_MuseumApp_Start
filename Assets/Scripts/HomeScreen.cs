@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace MuseumApp
 {
@@ -16,6 +17,8 @@ namespace MuseumApp
         public List<AttractionConfig> attractions;
         public List<AttractionEntryGraphics> attractionEntries;
 
+        public Button deleteUserButton;
+
         public void Signup()
         {
             SceneManager.LoadScene("SignupPopup", LoadSceneMode.Additive);
@@ -23,7 +26,8 @@ namespace MuseumApp
 
         public void LogOff()
         {
-            // TODO: LogOff
+            // LogOff
+            User.LogOff();
 
             Refresh();
         }
@@ -52,9 +56,7 @@ namespace MuseumApp
         private void SetupUsername()
         {
             // TODO
-            bool isLoggedIn = true;
-
-            if (!isLoggedIn)
+            if (!User.IsLoggedIn)
             {
                 loginButton.SetActive(true);
                 username.gameObject.SetActive(false);
@@ -64,7 +66,14 @@ namespace MuseumApp
             loginButton.SetActive(false);
             username.gameObject.SetActive(true);
 
-            // TODO: username.text = <NAME>;
+            // username.text = <NAME>;
+            username.text = User.LoggedInUsername;
+        }
+
+        public void OnClick_DeleteUser()
+        {
+            Database.DeleteUser();
+            LogOff();
         }
     }
 }
